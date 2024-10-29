@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35303.130
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnakeAI", "SnakeAI\SnakeAI.csproj", "{B8D7AEDB-7725-44B6-8A22-0C5CAD1AB57C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeuralNetworkLibrary", "..\..\Visual Studio 2022\Projects\NeuralNetworkLibrary\NeuralNetworkLibrary\NeuralNetworkLibrary.csproj", "{178C63A4-7C19-45C2-AF4D-0E1CE75B482C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B8D7AEDB-7725-44B6-8A22-0C5CAD1AB57C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8D7AEDB-7725-44B6-8A22-0C5CAD1AB57C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8D7AEDB-7725-44B6-8A22-0C5CAD1AB57C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8D7AEDB-7725-44B6-8A22-0C5CAD1AB57C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{178C63A4-7C19-45C2-AF4D-0E1CE75B482C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{178C63A4-7C19-45C2-AF4D-0E1CE75B482C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{178C63A4-7C19-45C2-AF4D-0E1CE75B482C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{178C63A4-7C19-45C2-AF4D-0E1CE75B482C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {45079623-1827-492A-BB08-AF4B1C16E5A1}
+	EndGlobalSection
+EndGlobal
