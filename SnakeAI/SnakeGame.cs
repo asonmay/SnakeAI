@@ -65,7 +65,7 @@ namespace SnakeAI
 
             double[] inputs = [appleDif.X, appleDif.Y, wallDif1, wallDif2, wallDif3, wallDif4];
             double[] raw = Network.Compute(inputs);
-            snake.currentDirection = GetDirection(raw);
+            snake.CurrentDirection = GetDirection(raw);
         }
 
         public void Update(GameTime gameTime)
@@ -78,8 +78,15 @@ namespace SnakeAI
                 if (snake.Head.X == Grid.Apple.X && snake.Head.Y == Grid.Apple.Y)
                 {
                     RandomizeApple();
-                    snake.numberOfMoves = 0;
+                    snake.NumberOfMoves = 0;
                     Fitness += 50;
+                    snake.AddToTail();
+                }
+
+                if (snake.IsTouchingItself())
+                {
+                    IsGameOver = true;
+                    Fitness -= 100;
                 }
 
                 if (snake.Head.X < 0 || snake.Head.Y < 0 || snake.Head.X > Grid.Size.X - 1 || snake.Head.Y > Grid.Size.Y - 1)
@@ -88,26 +95,12 @@ namespace SnakeAI
                     Fitness -= 100;
                 }
 
-                if (snake.numberOfMoves > 20)
+                if (snake.NumberOfMoves > 20)
                 {
                     Fitness -= 25;
                     IsGameOver = true;
                 }
             }
-        }
-
-        private bool IsTouchingItself()
-        {
-            LinkedListNode<Point> current = snake.Points.First;
-            while(current.Value != snake.Points.Last())
-            {
-                if(current.Value == snake.Head)
-                {
-                    return true;
-                }
-                current = current.Next;
-            }
-            return false;
         }
 
         public void Draw(SpriteBatch sp)
@@ -122,7 +115,7 @@ namespace SnakeAI
         public void Reset()
         {
             snake.Reset();
-            snake.numberOfMoves = 0;
+            snake.NumberOfMoves = 0;
             IsGameOver = false;
             Fitness = 0;
             Grid.Color = Color.Gray;

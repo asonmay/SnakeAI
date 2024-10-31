@@ -22,8 +22,8 @@ namespace SnakeAI
     public class Snake : Sprite
     {
         public LinkedList<Point> Points { get; private set; }
-        public Directions currentDirection { get; set; }
-        public int numberOfMoves { get; set; }
+        public Directions CurrentDirection { get; set; }
+        public int NumberOfMoves { get; set; }
 
         private Grid grid;
         private Color color;
@@ -58,6 +58,25 @@ namespace SnakeAI
             Points.AddFirst(startingPos);
         }
 
+        public void AddToTail()
+        {
+            switch(CurrentDirection)
+            {
+                case Directions.Left:
+                    Points.AddLast(new Point(Points.Last().X + 1, Points.Last().Y));
+                    break;
+                case Directions.Right:
+                    Points.AddLast(new Point(Points.Last().X - 1, Points.Last().Y));
+                    break;
+                case Directions.Forward:
+                    Points.AddLast(new Point(Points.Last().X + 1, Points.Last().Y));
+                    break;
+                case Directions.Back:
+                    Points.AddLast(new Point(Points.Last().X - 1, Points.Last().Y));
+                    break;
+            }
+        }
+
         public double Update(GameTime gameTime, double fitness, Point apple)
         {
             timer += gameTime.ElapsedGameTime;
@@ -68,25 +87,16 @@ namespace SnakeAI
                 double pastDist = Math.Abs(past.X - apple.X) + Math.Abs(past.Y - apple.Y);
                 double currentDist = Math.Abs(Points.First().X - apple.X) + Math.Abs(Points.First().Y - apple.Y);
                 fitness += pastDist < currentDist ? -10 : 5;
-                //if (lastPos[0] == Points.First() || lastPos[3] == Points.First())
-                //{
-                //    fitness -= 300;
-                //}
+               
                 timer = TimeSpan.Zero;
-                numberOfMoves++;
-                
-                //for(int i = lastPos.Length - 1; i > 0; i--)
-                //{
-                //    lastPos[i - 1] = lastPos[i];
-                //}
-                //lastPos[0] = past;
+                NumberOfMoves++; 
             }
             return fitness;
         }
 
         public void Move()
         {
-            switch (currentDirection)
+            switch (CurrentDirection)
             {
                 case Directions.Left:
                     Points.AddFirst(new Point(Points.First().X - 1, Points.First().Y));
@@ -107,13 +117,28 @@ namespace SnakeAI
             Points.RemoveLast();
         }
 
+        public bool IsTouchingItself()
+        {
+            LinkedListNode<Point> current = Points.First.Next;
+            for (int i = 1; i < Points.Count; i++)
+            {
+                if(Points.First.Value == current.Value)
+                {
+                    return true;
+                }
+                current = current.Next;
+            }
+            return false;
+        }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Point current = Points.First();
+            LinkedListNode<Point> current = Points.First;
             for (int i = 0; i < Points.Count; i++)
             {
-                Point position = new Point((int)(grid.Pos.X + current.X * grid.TileSize.X), (int)(grid.Pos.Y + current.Y * grid.TileSize.Y));
+                Point position = new Point((int)(grid.Pos.X + current.Value.X * grid.TileSize.X), (int)(grid.Pos.Y + current.Value.Y * grid.TileSize.Y));
                 spriteBatch.FillRectangle(new Rectangle(position, grid.TileSize), color);
+                current = current.Next;
             }
         }
     }

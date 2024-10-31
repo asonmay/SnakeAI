@@ -14,7 +14,7 @@ namespace SnakeAI
         private SnakeGame[] games;
         private GeneticTrainer<SnakeGame> trainer;
         private int trainingSpeed;
-        private int seenNetworks;
+        private Point seenNetworks;
 
         public Game1()
         {
@@ -46,7 +46,7 @@ namespace SnakeAI
             ActivationFunction activationFunc = new ActivationFunction(ActivationAndErrorFunctions.TanH, ActivationAndErrorFunctions.TanHDerivative);
             ErrorFunction errorFunc = new ErrorFunction(ActivationAndErrorFunctions.MeanSquareError, ActivationAndErrorFunctions.MeanSquaredErrorDerivative);
 
-            seenNetworks = 36;
+            seenNetworks = new Point(6,6);
             games = new SnakeGame[250];
             for(int x = 0; x < games.Length; x++)
             {
@@ -71,18 +71,40 @@ namespace SnakeAI
             }
         }
 
-        private void DrawGames()
+        private void DrawGames(SnakeGame[] nets)
         {
-            for (int x = 0; x < Math.Sqrt(seenNetworks); x++)
+            for (int x = 0; x < seenNetworks.X; x++)
             {
-                for(int y = 0; y < Math.Sqrt(seenNetworks); y++)
+                for (int y = 0; y < seenNetworks.Y; y++)
                 {
-                    int index = (int)(x * Math.Sqrt(seenNetworks) + y);
-                    Grid grid = trainer.Networks[index].Grid;
-                    trainer.Networks[index].Grid.Pos = new Vector2(x * grid.Size.X * grid.TileSize.X, y * grid.Size.Y * grid.TileSize.X);
-                    trainer.Networks[index].Draw(spriteBatch);
+                    int index = x * seenNetworks.X + y;
+                    if (nets[index] != null)
+                    {
+                        Grid grid = trainer.Networks[index].Grid;
+                        nets[index].Grid.Pos = new Vector2(x * grid.Size.X * grid.TileSize.X, y * grid.Size.Y * grid.TileSize.X);
+                        nets[index].Draw(spriteBatch);
+                    }
                 }
             }
+        }
+
+        private SnakeGame[] GetGamesToDraw()
+        {
+            SnakeGame[] games = new SnakeGame[seenNetworks.X * seenNetworks.Y];
+            int index = 0;
+            for(int i = 0; i < trainer.Networks.Length; i++)
+            {
+                if (!trainer.Networks[i].IsGameOver)
+                {
+                    games[index] = trainer.Networks[i];
+                    index++;
+                }
+                if (index >= seenNetworks.X * seenNetworks.Y)
+                {
+                    break;
+                }
+            }
+            return games;
         }
 
         private bool AreAllDead()
@@ -121,15 +143,6 @@ namespace SnakeAI
                 ResetGames();
             }
 
-            int index = 0;
-            for(int i = 0; i < seenNetworks; i++)
-            {
-                if (!trainer.Networks[i].IsGameOver)
-                {
-                    index = i; 
-                    break;
-                }
-            }
             Window.Title = $"Gen: {trainer.Generation.ToString()}";
             if(Keyboard.GetState().IsKeyDown(Keys.D1))
             {
@@ -163,7 +176,7 @@ namespace SnakeAI
 
             if (trainingSpeed < 25)
             {
-                DrawGames();
+                DrawGames(GetGamesToDraw());
             }
 
             spriteBatch.End();

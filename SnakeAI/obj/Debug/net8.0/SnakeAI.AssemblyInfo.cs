@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SnakeAI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+daa20394616f7372c80f8b44fe614c043a1386c0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7f7a7debd7fdd0653bf53194368dd0e902d5a273")]
 [assembly: System.Reflection.AssemblyProductAttribute("SnakeAI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SnakeAI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
